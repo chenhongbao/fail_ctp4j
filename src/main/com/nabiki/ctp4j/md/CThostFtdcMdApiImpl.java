@@ -1,10 +1,10 @@
 package com.nabiki.ctp4j.md;
 
-import com.nabiki.ctp4j.md.internal.LoginProfile;
+import com.nabiki.ctp4j.jni.CtpNatives;
+import com.nabiki.ctp4j.jni.struct.CThostFtdcReqUserLoginField;
+import com.nabiki.ctp4j.jni.struct.CThostFtdcUserLogoutField;
 import com.nabiki.ctp4j.md.internal.MdChannelReader;
-import com.nabiki.ctp4j.md.internal.MdNatives;
-import com.nabiki.ctp4j.struct.CThostFtdcReqUserLoginField;
-import com.nabiki.ctp4j.struct.CThostFtdcUserLogoutField;
+import com.nabiki.ctp4j.md.internal.MdLoginProfile;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
@@ -12,7 +12,6 @@ import java.util.regex.Pattern;
 
 public class CThostFtdcMdApiImpl extends CThostFtdcMdApi implements AutoCloseable {
     private final static String apiVersion = "0.0.1";
-    private final LoginProfile profile = new LoginProfile();
 
     // Front address pattern.
     private final Pattern addressRegex = Pattern
@@ -20,9 +19,10 @@ public class CThostFtdcMdApiImpl extends CThostFtdcMdApi implements AutoCloseabl
     // Join/Release.
     private final ReentrantLock lock = new ReentrantLock();
     private final Condition cond = lock.newCondition();
+    private final MdLoginProfile profile = new MdLoginProfile();
+
     private int sessionId, channelId;
     private CThostFtdcMdSpi spi;
-    // Channel reader.
     private MdChannelReader channelReader;
 
     CThostFtdcMdApiImpl(String szFlowPath, boolean isUsingUdp, boolean isMulticast) {
@@ -43,9 +43,9 @@ public class CThostFtdcMdApiImpl extends CThostFtdcMdApi implements AutoCloseabl
 
     @Override
     public void Init() {
-        this.channelId = MdNatives.CreateChannel();
+        this.channelId = CtpNatives.CreateChannel();
         this.channelReader = new MdChannelReader(this.channelId, this.spi);
-        this.sessionId = MdNatives.CreateMdSession(this.profile, this.channelId);
+        this.sessionId = CtpNatives.CreateMdSession(this.profile, this.channelId);
     }
 
     @Override
@@ -54,13 +54,13 @@ public class CThostFtdcMdApiImpl extends CThostFtdcMdApi implements AutoCloseabl
             try {
                 this.cond.await();
                 break;
-            } catch (InterruptedException e) {
+            } catch (InterruptedException ignored) {
             }
     }
 
     @Override
     public void RegisterFront(String frontAddress) {
-        // Filter mal-formated address.
+        // Filter mal-formatted address.
         if (this.addressRegex.matcher(frontAddress).matches())
             this.profile.FrontAddresses.add(frontAddress);
     }
@@ -72,32 +72,33 @@ public class CThostFtdcMdApiImpl extends CThostFtdcMdApi implements AutoCloseabl
 
     @Override
     public void Release() {
-        MdNatives.DestroyMdSession(this.sessionId);
+        CtpNatives.DestroyMdSession(this.sessionId);
         this.channelReader.stop();
         this.channelReader = null;
-        MdNatives.DestroyChannel(this.channelId);
+        CtpNatives.DestroyChannel(this.channelId);
         // Signal.
         this.cond.signalAll();
     }
 
     @Override
-    public int ReqUserLogin(CThostFtdcReqUserLoginField reqUserLoginField, int requestId) {
-        return MdNatives.ReqUserLogin(this.sessionId, reqUserLoginField, requestId);
+    public int ReqUserLogin(CThostFtdcReqUserLoginField reqUserLoginField,
+                            int requestId) {
+        return CtpNatives.ReqUserLogin(this.sessionId, reqUserLoginField, requestId);
     }
 
     @Override
     public int ReqUserLogout(CThostFtdcUserLogoutField userLogout, int requestId) {
-        return MdNatives.ReqUserLogout(this.sessionId, userLogout, requestId);
+        return CtpNatives.ReqUserLogout(this.sessionId, userLogout, requestId);
     }
 
     @Override
     public int SubscribeMarketData(String[] instrumentID, int count) {
-        return MdNatives.SubscribeMarketData(this.sessionId, instrumentID, count);
+        return CtpNatives.SubscribeMarketData(this.sessionId, instrumentID, count);
     }
 
     @Override
     public int UnSubscribeMarketData(String[] instrumentID, int count) {
-        return MdNatives.UnSubscribeMarketData(this.sessionId, instrumentID, count);
+        return CtpNatives.UnSubscribeMarketData(this.sessionId, instrumentID, count);
     }
 
     @Override

@@ -1,9 +1,8 @@
 package com.nabiki.ctp4j.trader.internal;
 
-import com.nabiki.ctp4j.struct.CThostFtdcConnect;
-import com.nabiki.ctp4j.struct.CThostFtdcDisconnect;
-import com.nabiki.ctp4j.struct.CThostFtdcOrderField;
-import com.nabiki.ctp4j.struct.CThostFtdcTradeField;
+import com.nabiki.ctp4j.internal.*;
+import com.nabiki.ctp4j.jni.struct.CThostFtdcOrderField;
+import com.nabiki.ctp4j.jni.struct.CThostFtdcTradeField;
 
 import java.util.List;
 
@@ -12,9 +11,9 @@ public class TraderChannelData {
 
 	public List<ErrRtnOrderInsert> ListErrRtnOrderInsert;
 
-	public List<CThostFtdcConnect> ListConnect;
+	public List<FrontConnect> ListConnect;
 
-	public List<CThostFtdcDisconnect> ListDisconnect;
+	public List<FrontDisconnect> ListDisconnect;
 
 	public List<RspAuthenticate> ListRspAuthenticate;
 

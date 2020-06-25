@@ -1,15 +1,13 @@
 package com.nabiki.ctp4j.md.internal;
 
-import com.nabiki.ctp4j.struct.CThostFtdcConnect;
-import com.nabiki.ctp4j.struct.CThostFtdcDepthMarketDataField;
-import com.nabiki.ctp4j.struct.CThostFtdcDisconnect;
+import com.nabiki.ctp4j.internal.*;
 
 import java.util.List;
 
 public class MdChannelData {
-	public List<CThostFtdcConnect> ListConnect;
+	public List<FrontConnect> ListConnect;
 
-	public List<CThostFtdcDisconnect> ListDisconnect;
+	public List<FrontDisconnect> ListDisconnect;
 
 	public List<RspAuthenticate> ListRspAuthenticate;
 
@@ -19,7 +17,7 @@ public class MdChannelData {
 
 	public List<RspUserLogout> ListRspUserLogout;
 
-	public List<CThostFtdcDepthMarketDataField> ListRtnDepthMarketData;
+	public List<RtnDepthMarketData> ListRtnDepthMarketData;
 
 	public List<RspSubMarketData> ListRspSubMarketData;
 

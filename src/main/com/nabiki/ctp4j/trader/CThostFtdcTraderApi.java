@@ -1,14 +1,22 @@
 package com.nabiki.ctp4j.trader;
 
-import com.nabiki.ctp4j.struct.*;
+import com.nabiki.ctp4j.jni.flag.ThostTeResumeType;
+import com.nabiki.ctp4j.jni.struct.*;
 
 public abstract class CThostFtdcTraderApi {
 
 	protected CThostFtdcTraderApi() {
 	}
 
-	public static CThostFtdcTraderApi CreateFtdcTraderApi(String szFlowPath) {
-		return new CThostFtdcTraderApiImpl(szFlowPath);
+	/**
+	 * Create new trader api instance. The flow path {@link String} must points to
+	 * a valid directory path, or the native code would fail.
+	 *
+	 * @param flowPath path to the directory where native code keeps flow data
+	 * @return new trader api instance
+	 */
+	public static CThostFtdcTraderApi CreateFtdcTraderApi(String flowPath) {
+		return new CThostFtdcTraderApiImpl(flowPath);
 	}
 
 	/**
@@ -19,39 +27,44 @@ public abstract class CThostFtdcTraderApi {
 	public abstract String GetApiVersion();
 
 	/**
-	 * Get trading day in string. If the session is not logined, the method returns null.
+	 * Get trading day in string. If the session is not login, the method returns
+	 * null.
 	 *
 	 * @return trading day string
 	 */
 	public abstract String GetTradingDay();
 
 	/**
-	 * Initialize session to remote counter. It is not logined yet after the method returns.
+	 * Initialize session to remote counter. It is not login yet after the method
+	 * returns.
 	 */
 	public abstract void Init();
 
 	/**
-	 * Wait untilt the session is released. The method returns after {@code Release()} is called.
+	 * Wait until the session is released. The method returns after
+	 * {@link CThostFtdcTraderApi#Release()} is called.
 	 */
 	public abstract void Join();
 
 	/**
-	 * Set subscription type for private topic.
+	 * Set subscription type for private topic. If the specified type is invalid,
+	 * nothing happens.
 	 *
 	 * @param type constants defined in {@link ThostTeResumeType}
 	 */
 	public abstract void SubscribePrivateTopic(int type);
 
 	/**
-	 * Set subscription type for public topic.
+	 * Set subscription type for public topic. If the specified type is invalid,
+	 * nothing happens.
 	 *
 	 * @param type constants defined in {@link ThostTeResumeType}
 	 */
 	public abstract void SubscribePublicTopic(int type);
 
 	/**
-	 * Register fron address for the session. Client can have more than one front addresses and the native client
-	 * chooses randomly to connect the remote counter.
+	 * Register front address for the session. Client can have more than one front
+	 * addresses and the native client chooses randomly to connect the remote counter.
 	 *
 	 * @param frontAddress front address in the format {@code tcp://127.0.0.1:40010}
 	 */
@@ -70,8 +83,8 @@ public abstract class CThostFtdcTraderApi {
 	public abstract void Release();
 
 	/**
-	 * Request client authentication for the specified session. {@code OnRspAuthenticate} is called on the authentication
-	 * response.
+	 * Request client authentication for the specified session.
+	 * {@code OnRspAuthenticate} is called on the authentication response.
 	 *
 	 * <p>The method doesn't throw exception.
 	 *
@@ -85,10 +98,12 @@ public abstract class CThostFtdcTraderApi {
 	 * <li>-3, too many requests in last second
 	 * </ul>
 	 */
-	public abstract int ReqAuthenticate(CThostFtdcReqAuthenticateField reqAuthenticateField, int requestId);
+	public abstract int ReqAuthenticate(
+			CThostFtdcReqAuthenticateField reqAuthenticateField, int requestId);
 
 	/**
-	 * Request client login for the specified session. {@code OnRspUserLogin} is called on login response.
+	 * Request client login for the specified session. {@code OnRspUserLogin} is
+	 * called on login response.
 	 *
 	 * <p>The method doesn't throw exception.
 	 *
@@ -96,10 +111,12 @@ public abstract class CThostFtdcTraderApi {
 	 * @param requestId         identifier for this request
 	 * @return returned value from native function
 	 */
-	public abstract int ReqUserLogin(CThostFtdcReqUserLoginField reqUserLoginField, int requestId);
+	public abstract int ReqUserLogin(CThostFtdcReqUserLoginField reqUserLoginField,
+									 int requestId);
 
 	/**
-	 * Request client logout for the specified session. {@code OnRspUserLogout} is called on logout response.
+	 * Request client logout for the specified session. {@code OnRspUserLogout} is
+	 * called on logout response.
 	 *
 	 * <p>The method doesn't throw exception.
 	 *
@@ -107,21 +124,27 @@ public abstract class CThostFtdcTraderApi {
 	 * @param requestId  identifier for this request
 	 * @return returned value from native function
 	 */
-	public abstract int ReqUserLogout(CThostFtdcUserLogoutField userLogout, int requestId);
+	public abstract int ReqUserLogout(CThostFtdcUserLogoutField userLogout,
+									  int requestId);
 
 	/**
-	 * Request settlment confirm. {@code OnRspSettlementInfoConfirm} is called on response.
+	 * Request settlement confirm. {@code OnRspSettlementInfoConfirm} is called on
+	 * response.
 	 *
 	 * @param settlementInfoConfirm confirm request
 	 * @param requestId             identifier for this request
 	 * @return returned value from native function
 	 */
-	public abstract int ReqSettlementInfoConfirm(CThostFtdcSettlementInfoConfirmField settlementInfoConfirm, int requestId);
+	public abstract int ReqSettlementInfoConfirm(
+			CThostFtdcSettlementInfoConfirmField settlementInfoConfirm,
+			int requestId);
 
 	/**
-	 * Request inserting order for the specified session. Different methods are called on different errors or response.
+	 * Request inserting order for the specified session. Different methods are
+	 * called on different errors or response.
 	 * <ul>
-	 * <li>{@code OnErrRtnOrderInsert} or {@code OnRspOrderInsert} is callled on incorrect fields in request.
+	 * <li>{@code OnErrRtnOrderInsert} or {@code OnRspOrderInsert} is called on
+	 * incorrect fields in request.
 	 * <li>{@code OnRtnOrder} is called on order status update.
 	 * <li>{@code OnRtnTrade} is called on trade update.
 	 * </ul>
@@ -130,18 +153,23 @@ public abstract class CThostFtdcTraderApi {
 	 * @param requestId  identifier for this request
 	 * @return returned value from native function
 	 */
-	public abstract int ReqOrderInsert(CThostFtdcInputOrderField inputOrder, int requestId);
+	public abstract int ReqOrderInsert(CThostFtdcInputOrderField inputOrder,
+									   int requestId);
 
 	/**
-	 * Request cancelling an existing order from the specified session. There are two ways to cancel an order:
+	 * Request cancelling an existing order from the specified session. There are
+	 * two ways to cancel an order:
 	 * <ul>
-	 * <li>{@code OrderSysID}, the field is in order status update after execution of an order
-	 * <li>{@code FrontID + SessionID + OrderRef}, order reference is maintained by client and the previous two fields
-	 * 		are in successful login response, or in order status update.
+	 * <li>{@code OrderSysID}, the field is in order status update after execution
+	 * of an order
+	 * <li>{@code FrontID + SessionID + OrderRef}, order reference is maintained by
+	 * client and the previous two fields are in successful login response, or in
+	 * order status update.
 	 * </ul>
 	 * <p>Different methods are called on different errors or response:
 	 * <ul>
-	 * <li>{@code OnErrRtnOrderAction} or {@code OnRspOrderAction} is called on incorrect fields in action request.
+	 * <li>{@code OnErrRtnOrderAction} or {@code OnRspOrderAction} is called on
+	 * incorrect fields in action request.
 	 * <li>{@code OnRtnOrder} is called on order status update.
 	 * </ul>
 	 *
@@ -149,51 +177,64 @@ public abstract class CThostFtdcTraderApi {
 	 * @param requestId        identifier for this request
 	 * @return returned value from native function
 	 */
-	public abstract int ReqOrderAction(CThostFtdcInputOrderActionField inputOrderAction, int requestId);
+	public abstract int ReqOrderAction(
+			CThostFtdcInputOrderActionField inputOrderAction, int requestId);
 
 	/**
-	 * Request query instrument information of the specified session. {@code OnRspQryInstrument} is called on response.
+	 * Request query instrument information of the specified session.
+	 * {@code OnRspQryInstrument} is called on response.
 	 *
 	 * @param qryInstrument query request
 	 * @param requestId     identifier for this request
 	 * @return returned value from native function
 	 */
-	public abstract int ReqQryInstrument(CThostFtdcQryInstrumentField qryInstrument, int requestId);
+	public abstract int ReqQryInstrument(CThostFtdcQryInstrumentField qryInstrument,
+										 int requestId);
 
 	/**
-	 * Request query commission rate from the specified session. {@code OnRspQryInstrumentCommissionRate} is called on
-	 * response.
+	 * Request query commission rate from the specified session.
+	 * {@code OnRspQryInstrumentCommissionRate} is called on response.
 	 *
 	 * @param qryInstrumentCommissionRate query request
 	 * @param requestId                   identifier for this request
 	 * @return returned value from native function
 	 */
-	public abstract int ReqQryInstrumentCommissionRate(CThostFtdcQryInstrumentCommissionRateField qryInstrumentCommissionRate, int requestId);
+	public abstract int ReqQryInstrumentCommissionRate(
+			CThostFtdcQryInstrumentCommissionRateField qryInstrumentCommissionRate,
+			int requestId);
 
 	/**
-	 * Request query margin rate from the specified session. {@code OnRspQryInstrumentMarginRate} is called on response.
+	 * Request query margin rate from the specified session.
+	 * {@code OnRspQryInstrumentMarginRate} is called on response.
 	 *
 	 * @param qryInstrumentMarginRate query request
 	 * @param requestId               identifier for this request
 	 * @return returned value from native function
 	 */
-	public abstract int ReqQryInstrumentMarginRate(CThostFtdcQryInstrumentMarginRateField qryInstrumentMarginRate, int requestId);
+	public abstract int ReqQryInstrumentMarginRate(
+			CThostFtdcQryInstrumentMarginRateField qryInstrumentMarginRate,
+			int requestId);
 
 	/**
-	 * Request query trading account for the login user. {@code OnRspQryTradingAccount} is called on response.
+	 * Request query trading account for the login user.
+	 * {@code OnRspQryTradingAccount} is called on response.
 	 *
 	 * @param qryTradingAccount query request
 	 * @param requestId         identifier for this request
 	 * @return returned value from native function
 	 */
-	public abstract int ReqQryTradingAccount(CThostFtdcQryTradingAccountField qryTradingAccount, int requestId);
+	public abstract int ReqQryTradingAccount(
+			CThostFtdcQryTradingAccountField qryTradingAccount, int requestId);
 
 	/**
-	 * Request query position detail for the login user. {@code OnRspQryInvestorPositionDetail} is called on response.
+	 * Request query position detail for the login user.
+	 * {@code OnRspQryInvestorPositionDetail} is called on response.
 	 *
 	 * @param qryInvestorPositionDetail query request
 	 * @param requestId                 identifier for this request
 	 * @return returned value from native function
 	 */
-	public abstract int ReqQryInvestorPositionDetail(CThostFtdcQryInvestorPositionDetailField qryInvestorPositionDetail, int requestId);
+	public abstract int ReqQryInvestorPositionDetail(
+			CThostFtdcQryInvestorPositionDetailField qryInvestorPositionDetail,
+			int requestId);
 }

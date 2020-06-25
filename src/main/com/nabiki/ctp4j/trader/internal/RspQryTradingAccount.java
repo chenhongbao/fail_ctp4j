@@ -1,7 +1,7 @@
 package com.nabiki.ctp4j.trader.internal;
 
-import com.nabiki.ctp4j.struct.CThostFtdcRspInfoField;
-import com.nabiki.ctp4j.struct.CThostFtdcTradingAccountField;
+import com.nabiki.ctp4j.jni.struct.CThostFtdcRspInfoField;
+import com.nabiki.ctp4j.jni.struct.CThostFtdcTradingAccountField;
 
 public class RspQryTradingAccount {
 	public CThostFtdcTradingAccountField TradingAccount;

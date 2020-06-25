@@ -1,7 +1,7 @@
 package com.nabiki.ctp4j.md.internal;
 
-import com.nabiki.ctp4j.struct.CThostFtdcRspInfoField;
-import com.nabiki.ctp4j.struct.CThostFtdcSpecificInstrumentField;
+import com.nabiki.ctp4j.jni.struct.CThostFtdcRspInfoField;
+import com.nabiki.ctp4j.jni.struct.CThostFtdcSpecificInstrumentField;
 
 public class RspUnSubMarketData {
 	public CThostFtdcSpecificInstrumentField SpecificInstrument;

@@ -2,6 +2,11 @@ package com.nabiki.ctp4j.exception;
 
 public class ErrorCodes {
     /**
+     * No data to operate on.
+     */
+    public static final int NO_DATA = -6;
+
+    /**
      * Throwable from unknown cause.
      */
     public static final int UNNO_THROW = -5;
