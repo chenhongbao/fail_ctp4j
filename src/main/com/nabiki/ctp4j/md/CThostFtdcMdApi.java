@@ -32,6 +32,11 @@ import com.nabiki.ctp4j.jni.struct.CThostFtdcReqUserLoginField;
 import com.nabiki.ctp4j.jni.struct.CThostFtdcUserLogoutField;
 import com.nabiki.ctp4j.trader.CThostFtdcTraderApi;
 
+/**
+ * Mechanism of the market data instance is like the {@link CThostFtdcTraderApi}.
+ *
+ * @see CThostFtdcTraderApi
+ */
 public abstract class CThostFtdcMdApi {
     protected CThostFtdcMdApi() {
     }
