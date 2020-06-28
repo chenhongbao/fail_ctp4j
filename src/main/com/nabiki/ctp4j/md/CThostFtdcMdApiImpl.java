@@ -110,13 +110,13 @@ public class CThostFtdcMdApiImpl extends CThostFtdcMdApi implements AutoCloseabl
 
     @Override
     public int ReqUserLogin(CThostFtdcReqUserLoginField reqUserLoginField,
-                            int requestId) {
-        return CtpNatives.ReqUserLogin(this.sessionId, reqUserLoginField, requestId);
+                            int requestID) {
+        return CtpNatives.ReqUserLogin(this.sessionId, reqUserLoginField, requestID);
     }
 
     @Override
-    public int ReqUserLogout(CThostFtdcUserLogoutField userLogout, int requestId) {
-        return CtpNatives.ReqUserLogout(this.sessionId, userLogout, requestId);
+    public int ReqUserLogout(CThostFtdcUserLogoutField userLogout, int requestID) {
+        return CtpNatives.ReqUserLogout(this.sessionId, userLogout, requestID);
     }
 
     @Override

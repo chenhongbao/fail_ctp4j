@@ -142,7 +142,7 @@ public abstract class CThostFtdcTraderApi {
 	 * <p>The method doesn't throw exception.
 	 *
 	 * @param reqAuthenticateField authentication request
-	 * @param requestId            identifier for this request
+	 * @param requestID            identifier for this request
 	 * @return returned value from native function
 	 * <ul>
 	 * <li>0, successful sending
@@ -152,7 +152,7 @@ public abstract class CThostFtdcTraderApi {
 	 * </ul>
 	 */
 	public abstract int ReqAuthenticate(
-			CThostFtdcReqAuthenticateField reqAuthenticateField, int requestId);
+			CThostFtdcReqAuthenticateField reqAuthenticateField, int requestID);
 
 	/**
 	 * Request client login for the specified session. {@code OnRspUserLogin} is
@@ -161,11 +161,11 @@ public abstract class CThostFtdcTraderApi {
 	 * <p>The method doesn't throw exception.
 	 *
 	 * @param reqUserLoginField login request
-	 * @param requestId         identifier for this request
+	 * @param requestID         identifier for this request
 	 * @return returned value from native function
 	 */
 	public abstract int ReqUserLogin(CThostFtdcReqUserLoginField reqUserLoginField,
-									 int requestId);
+									 int requestID);
 
 	/**
 	 * Request client logout for the specified session. {@code OnRspUserLogout} is
@@ -174,23 +174,23 @@ public abstract class CThostFtdcTraderApi {
 	 * <p>The method doesn't throw exception.
 	 *
 	 * @param userLogout logout request
-	 * @param requestId  identifier for this request
+	 * @param requestID  identifier for this request
 	 * @return returned value from native function
 	 */
 	public abstract int ReqUserLogout(CThostFtdcUserLogoutField userLogout,
-									  int requestId);
+									  int requestID);
 
 	/**
 	 * Request settlement confirm. {@code OnRspSettlementInfoConfirm} is called on
 	 * response.
 	 *
 	 * @param settlementInfoConfirm confirm request
-	 * @param requestId             identifier for this request
+	 * @param requestID             identifier for this request
 	 * @return returned value from native function
 	 */
 	public abstract int ReqSettlementInfoConfirm(
 			CThostFtdcSettlementInfoConfirmField settlementInfoConfirm,
-			int requestId);
+			int requestID);
 
 	/**
 	 * Request inserting order for the specified session. Different methods are
@@ -203,11 +203,11 @@ public abstract class CThostFtdcTraderApi {
 	 * </ul>
 	 *
 	 * @param inputOrder order request
-	 * @param requestId  identifier for this request
+	 * @param requestID  identifier for this request
 	 * @return returned value from native function
 	 */
 	public abstract int ReqOrderInsert(CThostFtdcInputOrderField inputOrder,
-									   int requestId);
+									   int requestID);
 
 	/**
 	 * Request cancelling an existing order from the specified session. There are
@@ -227,67 +227,67 @@ public abstract class CThostFtdcTraderApi {
 	 * </ul>
 	 *
 	 * @param inputOrderAction action request
-	 * @param requestId        identifier for this request
+	 * @param requestID        identifier for this request
 	 * @return returned value from native function
 	 */
 	public abstract int ReqOrderAction(
-			CThostFtdcInputOrderActionField inputOrderAction, int requestId);
+			CThostFtdcInputOrderActionField inputOrderAction, int requestID);
 
 	/**
 	 * Request query instrument information of the specified session.
 	 * {@code OnRspQryInstrument} is called on response.
 	 *
 	 * @param qryInstrument query request
-	 * @param requestId     identifier for this request
+	 * @param requestID     identifier for this request
 	 * @return returned value from native function
 	 */
 	public abstract int ReqQryInstrument(CThostFtdcQryInstrumentField qryInstrument,
-										 int requestId);
+										 int requestID);
 
 	/**
 	 * Request query commission rate from the specified session.
 	 * {@code OnRspQryInstrumentCommissionRate} is called on response.
 	 *
 	 * @param qryInstrumentCommissionRate query request
-	 * @param requestId                   identifier for this request
+	 * @param requestID                   identifier for this request
 	 * @return returned value from native function
 	 */
 	public abstract int ReqQryInstrumentCommissionRate(
 			CThostFtdcQryInstrumentCommissionRateField qryInstrumentCommissionRate,
-			int requestId);
+			int requestID);
 
 	/**
 	 * Request query margin rate from the specified session.
 	 * {@code OnRspQryInstrumentMarginRate} is called on response.
 	 *
 	 * @param qryInstrumentMarginRate query request
-	 * @param requestId               identifier for this request
+	 * @param requestID               identifier for this request
 	 * @return returned value from native function
 	 */
 	public abstract int ReqQryInstrumentMarginRate(
 			CThostFtdcQryInstrumentMarginRateField qryInstrumentMarginRate,
-			int requestId);
+			int requestID);
 
 	/**
 	 * Request query trading account for the login user.
 	 * {@code OnRspQryTradingAccount} is called on response.
 	 *
 	 * @param qryTradingAccount query request
-	 * @param requestId         identifier for this request
+	 * @param requestID         identifier for this request
 	 * @return returned value from native function
 	 */
 	public abstract int ReqQryTradingAccount(
-			CThostFtdcQryTradingAccountField qryTradingAccount, int requestId);
+			CThostFtdcQryTradingAccountField qryTradingAccount, int requestID);
 
 	/**
 	 * Request query position detail for the login user.
 	 * {@code OnRspQryInvestorPositionDetail} is called on response.
 	 *
 	 * @param qryInvestorPositionDetail query request
-	 * @param requestId                 identifier for this request
+	 * @param requestID                 identifier for this request
 	 * @return returned value from native function
 	 */
 	public abstract int ReqQryInvestorPositionDetail(
 			CThostFtdcQryInvestorPositionDetailField qryInvestorPositionDetail,
-			int requestId);
+			int requestID);
 }

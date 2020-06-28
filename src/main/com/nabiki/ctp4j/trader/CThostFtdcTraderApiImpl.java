@@ -50,7 +50,7 @@ public class CThostFtdcTraderApiImpl extends CThostFtdcTraderApi implements Auto
     private final Condition cond = lock.newCondition();
     private final TraderLoginProfile profile = new TraderLoginProfile();
 
-    private int sessionId, channelId;
+    private Integer sessionID, channelID;
     private CThostFtdcTraderSpi spi;
     private TraderChannelReader channelReader;
 
@@ -70,11 +70,11 @@ public class CThostFtdcTraderApiImpl extends CThostFtdcTraderApi implements Auto
 
     @Override
     public void Init() {
-        this.channelId = CtpNatives.CreateChannel();
+        this.channelID = CtpNatives.CreateChannel();
         // Start channel reader.
-        this.channelReader = new TraderChannelReader(this.channelId, this.spi);
-        this.sessionId = CtpNatives.CreateTraderSession(
-                this.profile, this.channelId);
+        this.channelReader = new TraderChannelReader(this.channelID, this.spi);
+        this.sessionID = CtpNatives.CreateTraderSession(
+                this.profile, this.channelID);
     }
 
     @Override
@@ -127,115 +127,120 @@ public class CThostFtdcTraderApiImpl extends CThostFtdcTraderApi implements Auto
 
     @Override
     public void Release() {
-        CtpNatives.DestroyTraderSession(this.sessionId);
+        if (this.sessionID == null)
+            return; // The trader api had been released.
+
+        CtpNatives.DestroyTraderSession(this.sessionID);
         // Stop channel reader then destroy channel.
         this.channelReader.stop();
         this.channelReader = null;
-        CtpNatives.DestroyChannel(this.channelId);
+        CtpNatives.DestroyChannel(this.channelID);
+        this.sessionID = null;
+        this.channelID = null;
         // Signal.
         this.cond.signalAll();
     }
 
     @Override
     public int ReqAuthenticate(CThostFtdcReqAuthenticateField reqAuthenticateField,
-                               int requestId) {
+                               int requestID) {
         if (reqAuthenticateField == null)
             return ErrorCodes.NO_DATA;
         else
             return CtpNatives.ReqAuthenticate(
-                    this.sessionId, reqAuthenticateField, requestId);
+                    this.sessionID, reqAuthenticateField, requestID);
     }
 
     @Override
     public int ReqUserLogin(CThostFtdcReqUserLoginField reqUserLoginField,
-                            int requestId) {
+                            int requestID) {
         if (reqUserLoginField == null)
             return ErrorCodes.NO_DATA;
         else
             return CtpNatives.ReqUserLogin(
-                    this.sessionId, reqUserLoginField, requestId);
+                    this.sessionID, reqUserLoginField, requestID);
     }
 
     @Override
-    public int ReqUserLogout(CThostFtdcUserLogoutField userLogout, int requestId) {
+    public int ReqUserLogout(CThostFtdcUserLogoutField userLogout, int requestID) {
         if (userLogout == null)
             return ErrorCodes.NO_DATA;
         else
             return CtpNatives.ReqUserLogout(
-                    this.sessionId, userLogout, requestId);
+                    this.sessionID, userLogout, requestID);
     }
 
     @Override
-    public int ReqOrderInsert(CThostFtdcInputOrderField inputOrder, int requestId) {
+    public int ReqOrderInsert(CThostFtdcInputOrderField inputOrder, int requestID) {
         if (inputOrder == null)
             return ErrorCodes.NO_DATA;
         else
             return CtpNatives.ReqOrderInsert(
-                    this.sessionId, inputOrder, requestId);
+                    this.sessionID, inputOrder, requestID);
     }
 
     @Override
     public int ReqOrderAction(CThostFtdcInputOrderActionField inputOrderAction,
-                              int requestId) {
+                              int requestID) {
         if (inputOrderAction == null)
             return ErrorCodes.NO_DATA;
         else
             return CtpNatives.ReqOrderAction(
-                    this.sessionId, inputOrderAction, requestId);
+                    this.sessionID, inputOrderAction, requestID);
     }
 
     @Override
     public int ReqQryInstrument(CThostFtdcQryInstrumentField qryInstrument,
-                                int requestId) {
+                                int requestID) {
         if (qryInstrument == null)
             return ErrorCodes.NO_DATA;
         else
             return CtpNatives.ReqQryInstrument(
-                    this.sessionId, qryInstrument, requestId);
+                    this.sessionID, qryInstrument, requestID);
     }
 
     @Override
     public int ReqQryInstrumentCommissionRate(
             CThostFtdcQryInstrumentCommissionRateField qryInstrumentCommissionRate,
-            int requestId) {
+            int requestID) {
         if (qryInstrumentCommissionRate == null)
             return ErrorCodes.NO_DATA;
         else
             return CtpNatives.ReqQryInstrumentCommissionRate(
-                    this.sessionId, qryInstrumentCommissionRate, requestId);
+                    this.sessionID, qryInstrumentCommissionRate, requestID);
     }
 
     @Override
     public int ReqQryInstrumentMarginRate(
             CThostFtdcQryInstrumentMarginRateField qryInstrumentMarginRate,
-            int requestId) {
+            int requestID) {
         if (qryInstrumentMarginRate == null)
             return ErrorCodes.NO_DATA;
         else
             return CtpNatives.ReqQryInstrumentMarginRate(
-                    this.sessionId, qryInstrumentMarginRate, requestId);
+                    this.sessionID, qryInstrumentMarginRate, requestID);
     }
 
     @Override
     public int ReqQryTradingAccount(
             CThostFtdcQryTradingAccountField qryTradingAccount,
-            int requestId) {
+            int requestID) {
         if (qryTradingAccount == null)
             return ErrorCodes.NO_DATA;
         else
             return CtpNatives.ReqQryTradingAccount(
-                    this.sessionId, qryTradingAccount, requestId);
+                    this.sessionID, qryTradingAccount, requestID);
     }
 
     @Override
     public int ReqQryInvestorPositionDetail(
             CThostFtdcQryInvestorPositionDetailField qryInvestorPositionDetail,
-            int requestId) {
+            int requestID) {
         if (qryInvestorPositionDetail == null)
             return ErrorCodes.NO_DATA;
         else
             return CtpNatives.ReqQryInvestorPositionDetail(
-                    this.sessionId, qryInvestorPositionDetail, requestId);
+                    this.sessionID, qryInvestorPositionDetail, requestID);
     }
 
     @Override
@@ -246,11 +251,11 @@ public class CThostFtdcTraderApiImpl extends CThostFtdcTraderApi implements Auto
     @Override
     public int ReqSettlementInfoConfirm(
             CThostFtdcSettlementInfoConfirmField settlementInfoConfirm,
-            int requestId) {
+            int requestID) {
         if (settlementInfoConfirm == null)
             return ErrorCodes.NO_DATA;
         else
             return CtpNatives.ReqSettlementInfoConfirm(
-                    this.sessionId, settlementInfoConfirm, requestId);
+                    this.sessionID, settlementInfoConfirm, requestID);
     }
 }

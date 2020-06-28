@@ -118,11 +118,11 @@ public abstract class CThostFtdcMdApi {
      * <p>The method doesn't throw exception.
      *
      * @param reqUserLoginField login request
-     * @param requestId         identifier for this request
+     * @param requestID         identifier for this request
      * @return returned value from native function
      */
     public abstract int ReqUserLogin(CThostFtdcReqUserLoginField reqUserLoginField,
-                                     int requestId);
+                                     int requestID);
 
     /**
      * Request client logout for the specified session. {@code OnRspUserLogout} is
@@ -131,11 +131,11 @@ public abstract class CThostFtdcMdApi {
      * <p>The method doesn't throw exception.
      *
      * @param userLogout logout request
-     * @param requestId  identifier for this request
+     * @param requestID  identifier for this request
      * @return returned value from native function
      */
     public abstract int ReqUserLogout(CThostFtdcUserLogoutField userLogout,
-                                      int requestId);
+                                      int requestID);
 
     /**
      * Subscribe the specified instruments from ma front. The instrument count is

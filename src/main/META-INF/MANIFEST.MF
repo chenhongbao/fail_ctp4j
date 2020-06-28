@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ctp4j
-Bundle-SymbolicName: CTP for Java
+Bundle-SymbolicName: CTP_for_Java
 Bundle-Version: 0.0.1
 Bundle-Copyright: Copyright (c) 2020 Hongbao Chen<chenhongbao@outlook.com>
 Bundle-License: GNU Affero General Public License v3.0

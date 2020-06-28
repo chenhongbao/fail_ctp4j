@@ -117,8 +117,8 @@ public class MdChannelReader {
 
 	private void onErrorRsp(int code, String msg, int req, boolean last) {
 		var rsp = new CThostFtdcRspInfoField();
-		rsp.code = code;
-		rsp.message = msg;
+		rsp.ErrorID = code;
+		rsp.ErrorMsg = msg;
 		try {
 			this.spi.OnRspError(rsp, req, last);
 		} catch (Throwable ignored) {
