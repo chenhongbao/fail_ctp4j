@@ -1,16 +1,3 @@
 Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: ctp4j
-Bundle-SymbolicName: CTP_for_Java
-Bundle-Version: 0.0.1
-Bundle-Copyright: Copyright (c) 2020 Hongbao Chen<chenhongbao@outlook.com>
-Bundle-License: GNU Affero General Public License v3.0
-Bundle-Description: Java binding for Comprehensive Trading Platform(CTP). The CTP is
- a product of Shanghai Futures Information Technology<www.sfit.com.cn>. This binding
- works with a DLL bridging the native SDK and managed Java codes.
-Created-By: 11.0.5 (Oracle Corporation)
-Export-Package: com.nabiki.ctp4j.md;version="0.0.1",com.nabiki.ctp4j.trader;version="
- 0.0.1",com.nabiki.ctp4j.exception;version="0.0.1",com.nabiki.ctp4j.jni.struct;versio
- n="0.0.1",com.nabiki.ctp4j.jni.flag;version="0.0.1"
-Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=11))"
+Class-Path: ctp4j-jni.jar
 
